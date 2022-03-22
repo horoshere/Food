@@ -266,7 +266,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
   new MenuCard("img/tabs/vegy.jpg", "vegy", 'menu "huinyu"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свеж', 120, '.menu .container').render();
   new MenuCard("img/tabs/vegy.jpg", "vegy", 'menu "huinyu"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свеж', 120, '.menu .container').render();
-  new MenuCard("img/tabs/vegy.jpg", "vegy", 'menu "huinyu"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свеж', 120, '.menu .container').render();
+  new MenuCard("img/tabs/vegy.jpg", "vegy", 'menu "huinyu"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свеж', 120, '.menu .container').render(); // Forms
+
+  const forms = document.querySelectorAll('form');
+  const message = {
+    loading: 'Loading',
+    success: 'Thx',
+    failure: 'omg..'
+  };
+  forms.forEach(item => {
+    postData(item);
+  });
+
+  function postData(form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      statusMessage.textContent = message.loading;
+      form.append(statusMessage);
+      const request = new XMLHttpRequest();
+      request.open('POST', 'server.php');
+      request.setRequestHeader('Content-type', 'application/json');
+      const formData = new FormData(form);
+      const obj = {};
+      formData.forEach(function (value, key) {
+        obj[key] = value;
+      });
+      const json = JSON.stringify(obj);
+      request.send(json);
+      request.addEventListener('load', () => {
+        if (request.status === 200) {
+          statusMessage.textContent = message.success;
+          form.reset();
+          setTimeout(() => {
+            statusMessage.remove();
+          }, 2000);
+        } else {
+          statusMessage.textContent = message.failure;
+        }
+      });
+    });
+  }
 });
 
 /***/ })
