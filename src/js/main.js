@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (target && target.matches('.tabheader__item')) {
             tabs.forEach((item, i) => {
-               if (target == item) {
-                   hideTabContent();
-                   showTabContent(i);
-               }
+                if (target == item) {
+                    hideTabContent();
+                    showTabContent(i);
+                }
             });
         }
     });
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const deadline = '2022-03-21';
 
-    function getTimeRemaining (endtime) {
+    function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
             days = Math.floor(t / (1000 * 60 * 60 * 24)),
             hours = Math.floor((t / (1000 * 60 * 60) % 24)),
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             seconds = Math.floor((t / 1000) % 60);
 
         return {
-            'total' : t,
+            'total': t,
             'days': days,
             'hours': hours,
             'minutes': minutes,
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getZero(num) {
-        if (num >=0 && num < 10) {
+        if (num >= 0 && num < 10) {
             return `0${num}`
         } else {
             return num
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             seconds.innerHTML = getZero(t.seconds);
 
             if (t.total <= 0) {
-               clearInterval(timeInterval);
+                clearInterval(timeInterval);
             }
         }
     }
@@ -117,9 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     modal.addEventListener('click', e => {
-       if (e.target === modal || e.target.getAttribute('data-close') === '') {
-           closeModal();
-       }
+        if (e.target === modal || e.target.getAttribute('data-close') === '') {
+            closeModal();
+        }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         render() {
             const element = document.createElement('div');
-            if(this.classes.length === 0) {
+            if (this.classes.length === 0) {
                 this.element = 'menu__item';
                 element.classList.add(this.element);
             } else {
@@ -235,33 +235,30 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             form.insertAdjacentHTML('afterend', statusMessage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-
-            request.setRequestHeader('Content-type', 'application/json')
             const formData = new FormData(form);
-
 
             const obj = {};
             formData.forEach(function (value, key) {
                 obj[key] = value;
             });
 
-            const json = JSON.stringify(obj);
-
-            request.send(json);
-
-            request.addEventListener('load', () => {
-                if (request.status === 200) {
-                    console.log(request.response);
-                    showThxModal(message.success);
-                    form.reset();
-                    statusMessage.remove();
-                } else {
-                    showThxModal(message.failure);
-                }
+            fetch('server.php', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(obj)
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data);
+                showThxModal(message.success);
+                statusMessage.remove();
+            }).catch(() => {
+                showThxModal(message.failure);
+            }).finally(() => {
+                form.reset();
             });
-
         });
     }
 
@@ -288,6 +285,5 @@ document.addEventListener('DOMContentLoaded', () => {
             prevModalDialog.classList.remove('hide');
             closeModal();
         }, 4000);
-
     }
 });

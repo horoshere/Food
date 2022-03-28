@@ -28,5 +28,7 @@
     "webpack-cli": "^3.3.10",
     "webpack-stream": "^5.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "core-js": "^3.21.1"
+  }
 }
