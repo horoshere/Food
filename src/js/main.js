@@ -38,6 +38,123 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    //slider
+
+    const prev = document.querySelector('.offer__slider-prev'),
+        next = document.querySelector('.offer__slider-next'),
+        slides = document.querySelectorAll('.offer__slide'),
+        current = document.querySelector('#current'),
+        total = document.querySelector('#total'),
+        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
+        slidesField = document.querySelector('.offer__slider-inner'),
+        width = window.getComputedStyle(slidesWrapper).width;
+
+    let slideIndex = 1;
+    let offset = 0;
+
+    if (slides.length < 10) {
+        total.textContent = `0${slides.length}`;
+        current.textContent = `0${slideIndex}`;
+    } else {
+        total.textContent = slides.length;
+        current.textContent = slideIndex;
+    }
+
+    slidesField.style.width = 100 * slides.length + '%';
+    slidesField.style.display = 'flex';
+    slidesField.style.transition = 'all 0.3s';
+
+    slidesWrapper.style.overflow = 'hidden';
+
+
+    slides.forEach(slide => {
+        slide.style.width = width;
+    });
+
+    next.addEventListener('click', () => {
+        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+            offset = 0;
+        } else {
+            offset += +width.slice(0, width.length - 2);
+        }
+
+        slidesField.style.transform = `translateX(-${offset}px)`;
+
+        if(slideIndex == slides.length) {
+            slideIndex = 1;
+        } else {
+            slideIndex++;
+        }
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+    });
+
+    prev.addEventListener('click', () => {
+        if (offset == 0) {
+            offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+        } else {
+            offset -= +width.slice(0, width.length - 2);
+        }
+
+        slidesField.style.transform = `translateX(-${offset}px)`;
+
+        if(slideIndex == 1) {
+            slideIndex = slides.length;
+        } else {
+            slideIndex--;
+        }
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+    });
+
+    // showSlide(slideIndex);
+    //
+    // if (slides.length < 10) {
+    //     total.textContent = `0${slides.length}`
+    // } else {
+    //     total.textContent = `${slides.length}`
+    // }
+    //
+    // function showSlide (n) {
+    //     if (n > slides.length) {
+    //         slideIndex = 1;
+    //     }
+    //
+    //     if (n < 1) {
+    //         slideIndex = slides.length
+    //     }
+    //
+    //     slides.forEach(item => item.style.display = 'none');
+    //     slides[slideIndex - 1].style.display = 'block';
+    //
+    //     if (slideIndex < 10) {
+    //         current.textContent = `0${slideIndex}`
+    //     } else {
+    //         total.textContent = `${slideIndex}`
+    //     }
+    // }
+    //
+    // function plusSlide(n) {
+    //     showSlide(slideIndex += n);
+    // }
+    //
+    // prev.addEventListener('click', () => {
+    //     plusSlide(-1)
+    // });
+    // next.addEventListener('click', () => {
+    //     plusSlide(1)
+    // });
+
+
+
     //Timer
 
     const deadline = '2022-03-21';
@@ -181,32 +298,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    new MenuCard(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'menu "huinyu"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свеж',
-        120,
-        '.menu .container',
-    ).render();
+    const getContent = async (url) => {
+        const res = await fetch(url);
 
-    new MenuCard(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'menu "huinyu"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свеж',
-        120,
-        '.menu .container',
-    ).render();
+        if (!res.ok) {
+            throw new Error(`Can't fetch ${url}, error: ${res.status}`);
+        }
 
-    new MenuCard(
-        "img/tabs/vegy.jpg",
-        "vegy",
-        'menu "huinyu"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свеж',
-        120,
-        '.menu .container',
-    ).render();
+        return await res.json();
+    };
+
+    getContent('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
+
 
 
     // Forms
@@ -220,10 +328,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     forms.forEach(item => {
-        postData(item);
+        bindPostData(item);
     });
 
-    function postData(form) {
+    const postData = async (url, data) => {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: data
+        });
+
+        return await res.json();
+    };
+
+    function bindPostData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -237,19 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const formData = new FormData(form);
 
-            const obj = {};
-            formData.forEach(function (value, key) {
-                obj[key] = value;
-            });
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            fetch('server.php', {
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(obj)
-            })
-            .then(data => data.text())
+            postData('http://localhost:3000/requests', json)
             .then(data => {
                 console.log(data);
                 showThxModal(message.success);
