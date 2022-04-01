@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prev = document.querySelector('.offer__slider-prev'),
         next = document.querySelector('.offer__slider-next'),
         slides = document.querySelectorAll('.offer__slide'),
+        slider = document.querySelector('.offer__slider'),
         current = document.querySelector('#current'),
         total = document.querySelector('#total'),
         slidesWrapper = document.querySelector('.offer__slider-wrapper'),
@@ -71,6 +72,28 @@ document.addEventListener('DOMContentLoaded', () => {
         slide.style.width = width;
     });
 
+    slider.style.position = 'relative';
+
+    const dots = document.createElement('ol'),
+        dotArr = [];
+
+    dots.classList.add('carousel-indicators');
+    slider.append(dots);
+
+    for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('ol');
+        dot.setAttribute('data-slide-to', i + 1);
+        dot.classList.add('dot');
+
+        if (i == 0) {
+            dot.style.opacity = 1;
+        }
+
+        dots.append(dot);
+
+        dotArr.push(dot);
+    }
+
     next.addEventListener('click', () => {
         if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
             offset = 0;
@@ -91,6 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             current.textContent = slideIndex;
         }
+
+        dotArr.forEach(dot => dot.style.opacity = '.5');
+        dotArr[slideIndex - 1].style.opacity = 1;
     });
 
     prev.addEventListener('click', () => {
@@ -113,6 +139,29 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             current.textContent = slideIndex;
         }
+
+        dotArr.forEach(dot => dot.style.opacity = '.5');
+        dotArr[slideIndex - 1].style.opacity = 1;
+    });
+
+    dotArr.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const slideTo = e.target.getAttribute('data-slide-to');
+
+            slideIndex = slideTo;
+            offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+
+            slidesField.style.transform = `translateX(-${offset}px)`;
+
+            dotArr.forEach(dot => dot.style.opacity = '.5');
+            dotArr[slideIndex - 1].style.opacity = 1;
+
+            if (slides.length < 10) {
+                current.textContent = `0${slideIndex}`;
+            } else {
+                current.textContent = slideIndex;
+            }
+        });
     });
 
     // showSlide(slideIndex);
