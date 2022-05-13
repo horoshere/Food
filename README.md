@@ -31,7 +31,8 @@ getContent('http://localhost:3000/menu')
         });
 ```
 
-4. Заполненные данные из *Форм* тоже уходят на сервер.
+4. Заполненные данные из *Форм* тоже уходят на сервер.  
+
 ![requests](https://sun9-60.userapi.com/s/v1/ig2/rb9bkTgAdmdVaSmqwJtEO-1josJFXu8FNRN8xOVl8rDnalQm4bjfq0-DEf_X4bZtt2klGGAbn72GPKZ2bph8M5zo.jpg?size=337x370&quality=96&type=album).
 
 
