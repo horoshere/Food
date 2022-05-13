@@ -8,4 +8,8 @@
 * Модальные окна
 * Реализация таймера на странице
 
-![](https://sun9-17.userapi.com/s/v1/ig2/nCDSWB-X9qIwSimcjaqAIGvatrP6Hs47eSX34kaGM6oLk6gtxsLsfmDgcMQxawkdNq8h4SoHqf0X2eNUJ7BNzceN.jpg?size=1275x674&quality=96&type=album)
+
+## Особенности
+1. Блок калькулятор колорий
+  ![calc](https://sun9-23.userapi.com/s/v1/ig2/f8F3kAnji0ZvXz3qN7b1uXiquDwbAcXCnxdBHnksY9R0XJfwXG1-qh1EASxm_eRqr4n7JNy6cImzXEZ1ft8MEAP7.jpg?      size=638x337&quality=96&type=album)
+
