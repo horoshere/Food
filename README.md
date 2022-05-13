@@ -18,7 +18,7 @@
 
 
 3. Блок *Наше меню на день* создан с помощью **Классов**.
-![menuCards](https://sun9-17.userapi.com/s/v1/ig2/1dAG4cPs5IshFWT3TOJFAK9ano77utSRCnKjIXv-DLyxDlX4IUDADK8V2E2ffl-_XvYoiCdP1uefGS8TijRIDzwN.jpg?size=784x401&quality=96&type=album)
+![menuCards](https://sun9-17.userapi.com/s/v1/ig2/1dAG4cPs5IshFWT3TOJFAK9ano77utSRCnKjIXv-DLyxDlX4IUDADK8V2E2ffl-_XvYoiCdP1uefGS8TijRIDzwN.jpg?size=784x401&quality=96&type=album).
 Данные для карточек получены с сервера [db.json](https://github.com/horoshere/Food/blob/main/dist/db.json).
 
 ```js
@@ -30,5 +30,8 @@ getContent('http://localhost:3000/menu')
             });
         });
 ```
+
+4. Заполненные данные из *Форм* тоже уходят на сервер.
+![requests](https://sun9-60.userapi.com/s/v1/ig2/rb9bkTgAdmdVaSmqwJtEO-1josJFXu8FNRN8xOVl8rDnalQm4bjfq0-DEf_X4bZtt2klGGAbn72GPKZ2bph8M5zo.jpg?size=337x370&quality=96&type=album).
 
 
