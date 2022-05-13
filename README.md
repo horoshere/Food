@@ -32,9 +32,14 @@ getContent('http://localhost:3000/menu')
         });
 ```
 
-```php
-//php code
-$foo = new BarClass();
+```js
+//js code
+getContent('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
 ```
 
 
