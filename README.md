@@ -21,17 +21,6 @@
 ![menuCards](https://sun9-17.userapi.com/s/v1/ig2/1dAG4cPs5IshFWT3TOJFAK9ano77utSRCnKjIXv-DLyxDlX4IUDADK8V2E2ffl-_XvYoiCdP1uefGS8TijRIDzwN.jpg?size=784x401&quality=96&type=album)
 Данные для карточек получены с сервера [db.json](https://github.com/horoshere/Food/blob/main/dist/db.json).
 
-Можно использовать `light-code` внутри строки
-
-```
-getContent('http://localhost:3000/menu')
-        .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
-                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
-            });
-        });
-```
-
 ```js
 //js code
 getContent('http://localhost:3000/menu')
