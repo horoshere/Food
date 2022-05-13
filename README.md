@@ -10,6 +10,6 @@
 
 
 ## Особенности
-1. Блок калькулятор колорий
-![calc](https://sun9-23.userapi.com/s/v1/ig2/f8F3kAnji0ZvXz3qN7b1uXiquDwbAcXCnxdBHnksY9R0XJfwXG1-qh1EASxm_eRqr4n7JNy6cImzXEZ1ft8MEAP7.jpg?size=638x337&quality=96&type=album)
+1. В блоке калькулятор калорий выбранные данные сохраняются в **Local Storage**.
+![localstorage](https://sun9-24.userapi.com/s/v1/ig2/ihUQifin6AvMgYp9_2TPg5PabvN3akc-CCcMljB9Eg278optA_OnC0CG4G7sOWNmocn8ZXkl88n0TC-GU9ZWi1LM.jpg?size=640x227&quality=96&type=album)
 
